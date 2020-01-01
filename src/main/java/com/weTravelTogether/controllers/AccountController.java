@@ -19,7 +19,6 @@ public class AccountController {
         account.setEmail(email);
         account.setPassword(password);
         accountRepository.save(account);
-
         return account;
     }
 }
