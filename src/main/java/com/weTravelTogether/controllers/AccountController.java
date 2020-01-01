@@ -13,9 +13,7 @@ public class AccountController {
     AccountRepository accountRepository;
 
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody
-    Account addNewUser (@RequestParam String email
-            , @RequestParam String password) {
+    public Account addNewUser (@RequestParam String email, @RequestParam String password) {
 
         Account account = new Account();
         account.setEmail(email);

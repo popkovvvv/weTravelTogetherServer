@@ -1,34 +1,34 @@
 package com.weTravelTogether.models;
 
-import lombok.Data;
-import lombok.NonNull;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-@Data
+@Table
 public class Account {
 
     @Id
     @GeneratedValue
     private long id;
 
+    @Column
     private String name;
 
+    @Column
     private String surname;
 
-    @NonNull
+    @Column(length = 64, nullable = false)
     private String password;
 
+    @Column(length = 64)
     private String patronymic;
 
+    @Column
     private int age;
 
-    @NonNull
+    @Column(length = 64, nullable = false)
     private String email;
 
+    @Column
     private String city;
 
     public Account() {
