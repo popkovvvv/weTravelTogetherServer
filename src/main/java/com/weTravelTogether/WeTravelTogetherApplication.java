@@ -1,4 +1,4 @@
-package com.weTravelTogether.weTravelTogether;
+package com.weTravelTogether;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
