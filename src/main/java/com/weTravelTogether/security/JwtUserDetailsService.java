@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
     AccountRepository accountRepository;
@@ -21,7 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        // Let people login with either username or email
         // Let people login with either username or email
         Account user = accountRepository.findByUsername(username)
                 .orElseThrow(() ->
@@ -42,4 +41,3 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 }
-
