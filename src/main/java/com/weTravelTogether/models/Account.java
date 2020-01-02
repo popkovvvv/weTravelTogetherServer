@@ -3,7 +3,7 @@ package com.weTravelTogether.models;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "account")
 public class Account {
 
     @Id
