@@ -1,6 +1,5 @@
 package com.weTravelTogether.controllers;
 
-import com.weTravelTogether.FormData.LoginData;
 import com.weTravelTogether.models.Account;
 import com.weTravelTogether.repos.AccountRepository;
 import com.weTravelTogether.security.JwtTokenProvider;
@@ -10,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AccountController {
@@ -36,11 +38,11 @@ public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @PostMapping(path="/registration") // Map ONLY POST Requests
-    public Account addNewUser (@RequestParam String email,
+    public Account addNewUser (@RequestParam String username,
                                @RequestParam String password) {
 
         Account account = new Account();
-        account.setEmail(email);
+        account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
         accountRepository.save(account);
 
@@ -48,15 +50,19 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public  String authenticateUser(@RequestParam String email, @RequestParam String password) {
-        logger.info("Logging a user with username: " + email);
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, password)
-        );
+    public  String authenticateUser(@RequestParam String username, @RequestParam String password) {
+        logger.info("Logging a user with username: " + username);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authenticate;
+        try {
+            authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            SecurityContextHolder.getContext().setAuthentication(authenticate);
+        }
+        catch (AuthenticationException e) {
+            throw e;
+        }
 
-        return tokenProvider.generateToken(authentication);
+        return tokenProvider.generateToken(authenticate);
     }
 
 }

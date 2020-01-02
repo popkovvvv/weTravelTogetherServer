@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @Data
 public class UserPrincipal implements UserDetails {
-
     private Long id;
 
     private String username;
@@ -36,7 +35,7 @@ public class UserPrincipal implements UserDetails {
 
         return new UserPrincipal(
                 user.getId(),
-                user.getName(),
+                user.getUsername(),
                 user.getPassword(),
                 authorities
         );
@@ -91,9 +90,4 @@ public class UserPrincipal implements UserDetails {
 
         return Objects.hash(id);
     }
-
-    public Long getId() {
-        return id;
-    }
-
 }

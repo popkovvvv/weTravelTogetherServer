@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 
 import java.util.Date;
+
 @Component
 public class JwtTokenProvider {
 

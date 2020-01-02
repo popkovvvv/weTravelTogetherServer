@@ -19,16 +19,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String email)
+    public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
         // Let people login with either username or email
-        Account user;
-        try {
-            user = accountRepository.findByEmail(email);
-        } catch (UsernameNotFoundException e) {
-            throw e;
-
-        }
+        // Let people login with either username or email
+        Account user = accountRepository.findByUsername(username)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found with username or email : " + username)
+                );
 
         return UserPrincipal.create(user);
     }
@@ -36,15 +34,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     // This method is used by JWTAuthenticationFilter
     @Transactional
     public UserDetails loadUserById(Long id) {
-        long userId = id;
-        Account user;
-        try {
-            user =  accountRepository.findById(userId);
-        } catch (UsernameNotFoundException e) {
-            throw e;
-        }
+        Account user = accountRepository.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("User not found with id : " + id)
+        );
 
         return UserPrincipal.create(user);
     }
+
 }
 

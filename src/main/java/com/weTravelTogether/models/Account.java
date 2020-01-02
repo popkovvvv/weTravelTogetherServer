@@ -14,6 +14,9 @@ public class Account {
     private String name;
 
     @Column
+    private String username;
+
+    @Column
     private String surname;
 
     @Column(length = 64, nullable = false)
@@ -25,7 +28,7 @@ public class Account {
     @Column
     private int age;
 
-    @Column(length = 64, nullable = false)
+    @Column(length = 64)
     private String email;
 
     @Column
@@ -72,6 +75,14 @@ public class Account {
 
     public void setPatronymic(String patronymic) {
         this.patronymic = patronymic;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getAge() {
