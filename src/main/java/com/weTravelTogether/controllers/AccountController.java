@@ -11,7 +11,7 @@ public class AccountController {
     @Autowired
     AccountRepository accountRepository;
 
-    @PostMapping(path="/add") // Map ONLY POST Requests
+    @PostMapping(path="/registration") // Map ONLY POST Requests
     public String addNewUser (@RequestParam String email, @RequestParam String password) {
 
         Account account = new Account();
