@@ -1,4 +1,4 @@
-package com.weTravelTogether.FormData;
+package com.weTravelTogether.pogos;
 
 import java.io.Serializable;
 

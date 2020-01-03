@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import com.weTravelTogether.FormData.JwtResponse;
+import com.weTravelTogether.pogos.ErrorRequest;
+import com.weTravelTogether.pogos.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -84,6 +85,20 @@ public class JwtTokenUtil implements Serializable {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public Object getUserDetailsByToken(HttpServletRequest request) {
+        final String requestTokenHeader = request.getHeader("Authorization");
+        String jwtToken;
+        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+            jwtToken = requestTokenHeader.substring(7);
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(getUsernameFromToken(jwtToken));
+
+            return userDetails;
+        }
+
+        return new ErrorRequest("Dont auth", HttpStatus.UNAUTHORIZED);
+
     }
 
     public boolean checkAuthenticate(HttpServletRequest request, String username) {
