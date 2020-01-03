@@ -1,5 +1,7 @@
 package com.weTravelTogether.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,12 +15,13 @@ public class Account {
     @Column
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String username;
 
     @Column
     private String surname;
 
+    @JsonIgnore
     @Column(length = 64, nullable = false)
     private String password;
 
