@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface EventRepository extends PagingAndSortingRepository<Event, Long> {
 
+    Event getEventByTitleOrderByIdDesc(String title);
 
 
 }

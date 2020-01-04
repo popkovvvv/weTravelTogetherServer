@@ -1,9 +1,7 @@
 package com.weTravelTogether.controllers;
 
 import com.weTravelTogether.models.Account;
-import com.weTravelTogether.models.AccountGeo;
 import com.weTravelTogether.pogos.UserGeoRequest;
-import com.weTravelTogether.repos.AccountGeoRepository;
 import com.weTravelTogether.repos.AccountRepository;
 import com.weTravelTogether.security.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,41 +15,27 @@ import java.util.Optional;
 public class AccountGeoController {
 
     @Autowired
-    AccountGeoRepository accountGeoRepository;
-
-    @Autowired
     AccountRepository accountRepository;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @GetMapping(path="/account/geo") // Map ONLY POST Requests
-    public AccountGeo getCurrentGeo (HttpServletRequest httpServletRequest) throws Exception {
-
-        UserDetails userDetails = (UserDetails) jwtTokenUtil.getUserDetailsByToken(httpServletRequest);
-
-        return accountGeoRepository.getAccountGeoByAccount_EmailOrderByIdDesc(userDetails.getUsername());
-
-    }
-
-    @PostMapping(path="/account/geo") // Map ONLY POST Requests
-    public AccountGeo postCurrentGeo (HttpServletRequest httpServletRequest,
+    @PostMapping(path="/account/update/geo") // Map ONLY POST Requests
+    public Account postUpdateGeo (HttpServletRequest httpServletRequest,
                                       @ModelAttribute("userGeoRequest") UserGeoRequest userGeoRequest) throws Exception {
 
         UserDetails userDetails = (UserDetails) jwtTokenUtil.getUserDetailsByToken(httpServletRequest);
+        Optional<Account> accountOptional =  accountRepository.findByEmail(userDetails.getUsername());
 
-        Optional<Account> account =  accountRepository.findByEmail(userDetails.getUsername());
+        Account account = accountOptional.get();
+        account.setCityGeo(userGeoRequest.getCity());
+        account.setRegionGeo(userGeoRequest.getRegion());
+        account.setLatitude(userGeoRequest.getLatitude());
+        account.setLongitude(userGeoRequest.getLongitude());
 
-        AccountGeo accountGeo = new AccountGeo();
-        accountGeo.setAccount(account.get());
-        accountGeo.setCity(userGeoRequest.getCity());
-        accountGeo.setRegion(userGeoRequest.getRegion());
-        accountGeo.setLatitude(userGeoRequest.getLatitude());
-        accountGeo.setLongitude(userGeoRequest.getLongitude());
+        accountRepository.save(account);
 
-        accountGeoRepository.save(accountGeo);
-
-        return accountGeo;
+        return account;
 
     }
 }

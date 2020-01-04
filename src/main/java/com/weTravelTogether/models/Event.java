@@ -18,6 +18,18 @@ public class Event {
     @OneToMany(mappedBy = "event")
     private List<Account> accountsList = new ArrayList<>();
 
+    @Column
+    private String city;
+
+    @Column
+    private String region;
+
+    @Column
+    private double longitude;
+
+    @Column
+    private double latitude;
+
     public long getId() {
         return id;
     }
@@ -40,5 +52,37 @@ public class Event {
 
     public void setAccountsList(List<Account> accountsList) {
         this.accountsList = accountsList;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }
