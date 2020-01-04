@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
@@ -19,12 +17,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username)
+    public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
         // Let people login with either username or email
-        Account user = accountRepository.findByUsername(username)
+        Account user = accountRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with username or email : " + username)
+                        new UsernameNotFoundException("User not found with username or email : " + email)
                 );
 
         return UserPrincipal.create(user);

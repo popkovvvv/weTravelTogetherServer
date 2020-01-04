@@ -1,5 +1,6 @@
 package com.weTravelTogether.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
@@ -10,32 +11,51 @@ public class Account {
     @GeneratedValue
     private long id;
 
+    @JsonIgnore
     @Column
     private String name;
 
-    @Column
+    @Column()
     private String username;
 
+    @JsonIgnore
     @Column
     private String surname;
 
+    @JsonIgnore
     @Column(length = 64, nullable = false)
     private String password;
 
+    @JsonIgnore
     @Column(length = 64)
     private String patronymic;
 
+    @JsonIgnore
     @Column
     private int age;
 
-    @Column(length = 64)
+    @Column(length = 64, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column
     private String city;
 
-    public Account() {
-    }
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Event event;
+
+    @Column
+    private String cityGeo;
+
+    @Column
+    private String regionGeo;
+
+    @Column
+    private double longitude;
+
+    @Column
+    private double latitude;
 
     public long getId() {
         return id;
@@ -107,5 +127,45 @@ public class Account {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public String getCityGeo() {
+        return cityGeo;
+    }
+
+    public void setCityGeo(String cityGeo) {
+        this.cityGeo = cityGeo;
+    }
+
+    public String getRegionGeo() {
+        return regionGeo;
+    }
+
+    public void setRegionGeo(String regionGeo) {
+        this.regionGeo = regionGeo;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }

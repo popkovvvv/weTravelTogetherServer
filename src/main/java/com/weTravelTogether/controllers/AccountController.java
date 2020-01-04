@@ -1,22 +1,23 @@
 package com.weTravelTogether.controllers;
 
+import com.weTravelTogether.pogos.ErrorRequest;
 import com.weTravelTogether.models.Account;
+import com.weTravelTogether.pogos.UserProfile;
 import com.weTravelTogether.repos.AccountRepository;
-import com.weTravelTogether.FormData.JwtRequest;
-import com.weTravelTogether.FormData.JwtResponse;
+import com.weTravelTogether.pogos.JwtRequest;
 import com.weTravelTogether.security.JwtTokenUtil;
 import com.weTravelTogether.security.JwtUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
+
 
 @RestController
 public class AccountController {
@@ -43,37 +44,69 @@ public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @PostMapping(path="/registration") // Map ONLY POST Requests
-    public Account addNewUser (@RequestParam String username,
-                               @RequestParam String password) {
+    public Object registration (@RequestParam String email, @RequestParam String password) throws Exception {
 
         Account account = new Account();
-        account.setUsername(username);
+        account.setEmail(email);
         account.setPassword(passwordEncoder.encode(password));
         accountRepository.save(account);
 
-        return account;
+        return jwtTokenUtil.authenticateJwt(email, password, "Registration");
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@ModelAttribute("formLogin") JwtRequest authenticationRequest) throws Exception {
+    public Object createAuthenticationToken(@ModelAttribute("formLogin") JwtRequest authenticationRequest,
+                                                 HttpServletRequest request) throws Exception {
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JwtResponse(token));
-    }
-
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+        boolean checkAuth = jwtTokenUtil.checkAuthenticate(request, authenticationRequest.getUsername());
+        if (checkAuth) {
+            return new ErrorRequest("Auth is true", HttpStatus.BAD_REQUEST);
         }
+
+        return jwtTokenUtil.authenticateJwt(authenticationRequest.getUsername(), authenticationRequest.getPassword(), "Login");
     }
+
+    @RequestMapping(value = "/account/profile/update", method = RequestMethod.POST)
+    public ErrorRequest postUpdateProfile(@ModelAttribute("formUpdate") UserProfile profile,
+                                          HttpServletRequest request) throws Exception {
+
+        UserDetails userDetails = (UserDetails) jwtTokenUtil.getUserDetailsByToken(request);
+        Optional<Account> accountOptional =  accountRepository.findByEmail(userDetails.getUsername());
+        Account account = accountOptional.get();
+
+        account.setName(profile.getName());
+        account.setSurname(profile.getSurname());
+        account.setUsername(profile.getUsername());
+        account.setCity(profile.getCity());
+        account.setPatronymic(profile.getPatronymic());
+        account.setAge(profile.getAge());
+
+        accountRepository.save(account);
+
+        return new ErrorRequest("update ok", HttpStatus.OK);
+    }
+
+        @GetMapping(value = "/account/profile")
+        public UserProfile getAccountProfile(HttpServletRequest request) throws Exception {
+
+            UserDetails userDetails = (UserDetails) jwtTokenUtil.getUserDetailsByToken(request);
+            Optional<Account> accountOptional =  accountRepository.findByEmail(userDetails.getUsername());
+            Account account = accountOptional.get();
+
+            UserProfile userProfile = new UserProfile();
+            userProfile.setId(account.getId());
+            userProfile.setName(account.getName());
+            userProfile.setSurname(account.getSurname());
+            userProfile.setUsername(account.getUsername());
+            userProfile.setEmail(account.getEmail());
+            userProfile.setCity(account.getCity());
+            userProfile.setPatronymic(account.getPatronymic());
+            userProfile.setAge(account.getAge());
+
+
+            return userProfile;
+
+    }
+
 
 }
