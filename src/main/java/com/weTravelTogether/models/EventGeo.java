@@ -2,11 +2,9 @@ package com.weTravelTogether.models;
 
 import javax.persistence.*;
 
-import javax.persistence.Entity;
-
 @Entity
 @Table
-public class AccountGeo {
+public class EventGeo {
 
     @Id
     @GeneratedValue
@@ -25,7 +23,7 @@ public class AccountGeo {
     private double latitude;
 
     @ManyToOne(optional = false)
-    private Account account;
+    private Event event;
 
     public long getId() {
         return id;
@@ -64,14 +62,14 @@ public class AccountGeo {
     }
 
     public void setLatitude(double latitude) {
-        latitude = latitude;
+        this.latitude = latitude;
     }
 
-    public Account getAccount() {
-        return account;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

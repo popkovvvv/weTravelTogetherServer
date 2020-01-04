@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AccountGeoRepository extends CrudRepository<AccountGeo, Long> {
 
-    AccountGeo getAccountGeoByAccount_Username(String username);
+    AccountGeo getAccountGeoByAccount_EmailOrderByIdDesc(String username);
 }

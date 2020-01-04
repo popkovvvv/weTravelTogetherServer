@@ -14,12 +14,14 @@ public class Account {
     @GeneratedValue
     private long id;
 
+    @JsonIgnore
     @Column
     private String name;
 
-    @Column(nullable = false)
+    @Column()
     private String username;
 
+    @JsonIgnore
     @Column
     private String surname;
 
@@ -27,17 +29,24 @@ public class Account {
     @Column(length = 64, nullable = false)
     private String password;
 
+    @JsonIgnore
     @Column(length = 64)
     private String patronymic;
 
+    @JsonIgnore
     @Column
     private int age;
 
-    @Column(length = 64)
+    @Column(length = 64, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column
     private String city;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Event event;
 
     public long getId() {
         return id;
@@ -109,5 +118,13 @@ public class Account {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

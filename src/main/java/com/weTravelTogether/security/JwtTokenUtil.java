@@ -113,11 +113,11 @@ public class JwtTokenUtil implements Serializable {
         return false;
     }
 
-    public JwtResponse authenticateJwt(String username, String password, String message) throws Exception {
+    public JwtResponse authenticateJwt(String email, String password, String message) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 
-            final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
             final String token = generateToken(userDetails);
 

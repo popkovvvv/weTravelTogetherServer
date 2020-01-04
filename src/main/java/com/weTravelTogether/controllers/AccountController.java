@@ -41,14 +41,14 @@ public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @PostMapping(path="/registration") // Map ONLY POST Requests
-    public Object registration (@RequestParam String username, @RequestParam String password) throws Exception {
+    public Object registration (@RequestParam String email, @RequestParam String password) throws Exception {
 
         Account account = new Account();
-        account.setUsername(username);
+        account.setEmail(email);
         account.setPassword(passwordEncoder.encode(password));
         accountRepository.save(account);
 
-        return jwtTokenUtil.authenticateJwt(username, password, "Registration");
+        return jwtTokenUtil.authenticateJwt(email, password, "Registration");
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
