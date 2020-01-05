@@ -15,8 +15,8 @@ public class Event {
     @Column
     private String title;
 
-    @OneToMany(mappedBy = "event")
-    private List<User> accountsList = new ArrayList<>();
+    @ManyToMany(mappedBy = "events")
+    private List<User> userList = new ArrayList<>();
 
     @Column
     private String city;
@@ -46,12 +46,12 @@ public class Event {
         this.title = title;
     }
 
-    public List<User> getAccountsList() {
-        return accountsList;
+    public List<User> getUserList() {
+        return userList;
     }
 
-    public void setAccountsList(List<User> accountsList) {
-        this.accountsList = accountsList;
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 
     public String getCity() {

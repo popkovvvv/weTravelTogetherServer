@@ -1,6 +1,7 @@
 package com.weTravelTogether.pogos;
 
 import com.weTravelTogether.models.User;
+import com.weTravelTogether.pogos.interfaces.PojoInt;
 
 public class UserProfile implements PojoInt<UserProfile,User> {
 

@@ -2,6 +2,8 @@ package com.weTravelTogether.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -44,9 +46,9 @@ public class User{
     @Column
     private boolean visibleGeo;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private Event event;
+    private List<Event> events = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -120,12 +122,12 @@ public class User{
         this.city = city;
     }
 
-    public Event getEvent() {
-        return event;
+    public List<Event> getEvents() {
+        return events;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
     public boolean isVisibleGeo() {

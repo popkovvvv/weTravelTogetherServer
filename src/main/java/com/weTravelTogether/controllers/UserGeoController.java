@@ -37,7 +37,6 @@ public class UserGeoController {
     @PostMapping(path="/user/geo/update")
     public MessageRequest postUpdateGeo (HttpServletRequest httpServletRequest,
                                          @ModelAttribute("userGeoRequest") UserGeoRequest userGeoRequest) throws Exception {
-
         return userService.updateUserGeo(userGeoRequest, httpServletRequest);
     }
 
@@ -48,7 +47,11 @@ public class UserGeoController {
         if (!user.isVisibleGeo()){
             return new MessageRequest("visible false", HttpStatus.BAD_REQUEST.value());
         }
-        return userGeoRepository.getAccountGeoByUser_EmailOrderByIdDesc(user.getEmail());
 
+        UserGeo userGeo = userGeoRepository.getDistinctFirstByUser_EmailOrderByIdDesc(user.getEmail());
+        if (userGeo == null){
+            return new MessageRequest("dont have geo", HttpStatus.BAD_REQUEST.value());
+        }
+        return userGeo;
     }
 }

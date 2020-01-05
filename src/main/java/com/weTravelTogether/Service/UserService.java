@@ -56,10 +56,29 @@ public class UserService {
         return new MessageRequest("update", HttpStatus.OK.value());
     }
 
+    public MessageRequest updateUserProfileById(UserProfile profile, long id) {
+        User user = userRepository.findById(id);
+        user.setName(profile.getName());
+        user.setSurname(profile.getSurname());
+        user.setUsername(profile.getUsername());
+        user.setCity(profile.getCity());
+        user.setPatronymic(profile.getPatronymic());
+        user.setAge(profile.getAge());
+        user.setVisibleGeo(profile.isVisibleGeo());
+        userRepository.save(user);
+
+        return new MessageRequest("update", HttpStatus.OK.value());
+    }
 
     public UserProfile getUserProfile(HttpServletRequest httpServletRequest){
         UserProfile userProfile = new UserProfile();
         User user = userUtil.getUserObject(httpServletRequest);
+        return userProfile.create(user);
+    }
+
+    public UserProfile getUserProfileById(long id){
+        UserProfile userProfile = new UserProfile();
+        User user = userRepository.findById(id);
         return userProfile.create(user);
     }
 }

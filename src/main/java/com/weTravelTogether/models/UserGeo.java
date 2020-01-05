@@ -64,7 +64,7 @@ public class UserGeo {
     }
 
     public void setLatitude(double latitude) {
-        latitude = latitude;
+        this.latitude = latitude;
     }
 
     public User getUser() {

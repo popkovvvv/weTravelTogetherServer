@@ -11,4 +11,6 @@ public interface EventRepository extends PagingAndSortingRepository<Event, Long>
 
     Event findById(long id);
 
+    void removeEventById(long id);
+
 }

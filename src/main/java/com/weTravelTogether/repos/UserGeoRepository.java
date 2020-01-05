@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserGeoRepository extends CrudRepository<UserGeo, Long> {
 
-    UserGeo getAccountGeoByUser_EmailOrderByIdDesc(String username);
+    UserGeo getDistinctFirstByUser_EmailOrderByIdDesc(String username);
 
 }

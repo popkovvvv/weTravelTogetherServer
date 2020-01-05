@@ -1,4 +1,4 @@
-package com.weTravelTogether.security;
+package com.weTravelTogether.pogos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.weTravelTogether.models.User;

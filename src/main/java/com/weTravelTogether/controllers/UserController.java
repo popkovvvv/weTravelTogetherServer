@@ -41,6 +41,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     public UserController(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
@@ -75,9 +76,22 @@ public class UserController {
         return userService.updateUserProfile(profile, request);
     }
 
+    @PostMapping(value = "/user/profile/{id}/update")
+    public MessageRequest postUpdateProfileById(@ModelAttribute("formUpdate") UserProfile profile,
+                                                @PathVariable String id) throws Exception {
+        long profileId = Long.parseLong(id);
+        return userService.updateUserProfileById(profile, profileId);
+    }
+
     @GetMapping(value = "/user/profile")
     public UserProfile getAccountProfile(HttpServletRequest request) throws Exception {
         return userService.getUserProfile(request);
+    }
+
+    @GetMapping(value = "/user/profile/{id}")
+    public UserProfile getAccountProfile(@PathVariable String id) throws Exception {
+        long profileId = Long.parseLong(id);
+        return userService.getUserProfileById(profileId);
     }
 
     @GetMapping(value = "/logout")

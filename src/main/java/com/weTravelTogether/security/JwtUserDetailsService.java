@@ -1,6 +1,7 @@
 package com.weTravelTogether.security;
 
 import com.weTravelTogether.models.User;
+import com.weTravelTogether.pogos.UserPrincipal;
 import com.weTravelTogether.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
