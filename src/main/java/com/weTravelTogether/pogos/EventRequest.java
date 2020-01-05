@@ -1,22 +1,22 @@
 package com.weTravelTogether.pogos;
 
-public class EventGeoRequest {
+public class EventRequest {
 
     private String title;
     private String city;
     private String region;
     private double longitude;
-    private double Latitude;
+    private double latitude;
 
 
-    public EventGeoRequest(String city, String region, double longitude, double latitude) {
+    public EventRequest(String city, String region, double longitude, double latitude) {
         this.city = city;
         this.region = region;
         this.longitude = longitude;
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
-    public EventGeoRequest(){ }
+    public EventRequest(){ }
 
     public String getTitle() {
         return title;
@@ -51,10 +51,10 @@ public class EventGeoRequest {
     }
 
     public double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(double latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 }

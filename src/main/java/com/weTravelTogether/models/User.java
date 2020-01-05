@@ -2,10 +2,12 @@ package com.weTravelTogether.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "account")
-public class Account {
+@Table(name = "users")
+public class User{
 
     @Id
     @GeneratedValue
@@ -41,21 +43,12 @@ public class Account {
     @Column
     private String city;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Column
+    private boolean visibleGeo;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private Event event;
-
-    @Column
-    private String cityGeo;
-
-    @Column
-    private String regionGeo;
-
-    @Column
-    private double longitude;
-
-    @Column
-    private double latitude;
+    private List<Event> events = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -129,43 +122,21 @@ public class Account {
         this.city = city;
     }
 
-    public Event getEvent() {
-        return event;
+    public List<Event> getEvents() {
+        return events;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
-    public String getCityGeo() {
-        return cityGeo;
+    public boolean isVisibleGeo() {
+        return visibleGeo;
     }
 
-    public void setCityGeo(String cityGeo) {
-        this.cityGeo = cityGeo;
+    public void setVisibleGeo(boolean visibleGeo) {
+        this.visibleGeo = visibleGeo;
     }
 
-    public String getRegionGeo() {
-        return regionGeo;
-    }
 
-    public void setRegionGeo(String regionGeo) {
-        this.regionGeo = regionGeo;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
 }

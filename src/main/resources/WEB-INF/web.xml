@@ -35,7 +35,7 @@
 <!--        <filter-name>SessionHomeFilter</filter-name>-->
 <!--        <url-pattern>/home</url-pattern>-->
 <!--        <url-pattern>/home/logout</url-pattern>-->
-<!--        <url-pattern>/home/account/*</url-pattern>-->
+<!--        <url-pattern>/home/user/*</url-pattern>-->
 
 <!--    </filter-mapping>-->
     <!--    //END HOME FILTER-->

@@ -1,12 +1,13 @@
-package com.weTravelTogether.security;
+package com.weTravelTogether.Service.utils;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import com.weTravelTogether.pogos.ErrorRequest;
+import com.weTravelTogether.pogos.MessageRequest;
 import com.weTravelTogether.pogos.JwtResponse;
+import com.weTravelTogether.security.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
@@ -85,6 +88,12 @@ public class JwtTokenUtil implements Serializable {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    //delete token
+    public Boolean deleteToken() {
+       SecurityContextHolder.clearContext();
+        return true;
+    }
+
     public Object getUserDetailsByToken(HttpServletRequest request) {
         final String requestTokenHeader = request.getHeader("Authorization");
         String jwtToken;
@@ -95,7 +104,7 @@ public class JwtTokenUtil implements Serializable {
             return userDetails;
         }
 
-        return new ErrorRequest("Dont auth", HttpStatus.UNAUTHORIZED);
+        return new MessageRequest("Dont auth", HttpStatus.UNAUTHORIZED.value());
 
     }
 
