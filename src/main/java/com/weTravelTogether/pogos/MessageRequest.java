@@ -2,13 +2,13 @@ package com.weTravelTogether.pogos;
 
 import org.springframework.http.HttpStatus;
 
-public class ErrorRequest {
+public class MessageRequest {
 
     private  String message;
 
-    private final HttpStatus status;
+    private int status;
 
-    public ErrorRequest(String message, HttpStatus status) {
+    public MessageRequest(String message, int status) {
         this.message = message;
         this.status = status;
     }
@@ -17,7 +17,7 @@ public class ErrorRequest {
         return message;
     }
 
-    public HttpStatus getStatus() {
+    public int getStatus() {
         return status;
     }
 

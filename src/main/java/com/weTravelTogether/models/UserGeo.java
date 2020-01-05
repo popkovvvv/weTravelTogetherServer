@@ -1,22 +1,16 @@
 package com.weTravelTogether.models;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import javax.persistence.Entity;
 
 @Entity
-@Table(name = "events")
-public class Event {
+@Table(name = "user_geos")
+public class UserGeo {
 
     @Id
     @GeneratedValue
     private long id;
-
-    @Column
-    private String title;
-
-    @OneToMany(mappedBy = "event")
-    private List<User> accountsList = new ArrayList<>();
 
     @Column
     private String city;
@@ -30,28 +24,15 @@ public class Event {
     @Column
     private double latitude;
 
+    @ManyToOne(optional = false)
+    private User user;
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public List<User> getAccountsList() {
-        return accountsList;
-    }
-
-    public void setAccountsList(List<User> accountsList) {
-        this.accountsList = accountsList;
     }
 
     public String getCity() {
@@ -83,6 +64,14 @@ public class Event {
     }
 
     public void setLatitude(double latitude) {
-        this.latitude = latitude;
+        latitude = latitude;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

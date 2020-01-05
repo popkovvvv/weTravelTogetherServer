@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "account")
-public class Account {
+@Table(name = "users")
+public class User{
 
     @Id
     @GeneratedValue
@@ -41,21 +41,12 @@ public class Account {
     @Column
     private String city;
 
+    @Column
+    private boolean visibleGeo;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Event event;
-
-    @Column
-    private String cityGeo;
-
-    @Column
-    private String regionGeo;
-
-    @Column
-    private double longitude;
-
-    @Column
-    private double latitude;
 
     public long getId() {
         return id;
@@ -137,35 +128,13 @@ public class Account {
         this.event = event;
     }
 
-    public String getCityGeo() {
-        return cityGeo;
+    public boolean isVisibleGeo() {
+        return visibleGeo;
     }
 
-    public void setCityGeo(String cityGeo) {
-        this.cityGeo = cityGeo;
+    public void setVisibleGeo(boolean visibleGeo) {
+        this.visibleGeo = visibleGeo;
     }
 
-    public String getRegionGeo() {
-        return regionGeo;
-    }
 
-    public void setRegionGeo(String regionGeo) {
-        this.regionGeo = regionGeo;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
 }

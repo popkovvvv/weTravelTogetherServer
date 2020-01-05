@@ -1,7 +1,7 @@
 package com.weTravelTogether.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.weTravelTogether.models.Account;
+import com.weTravelTogether.models.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,7 +28,7 @@ public class UserPrincipal implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserPrincipal create(Account user) {
+    public static UserPrincipal create(User user) {
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("USER"));
 
         return new UserPrincipal(
