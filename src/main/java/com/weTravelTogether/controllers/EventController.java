@@ -1,13 +1,11 @@
 package com.weTravelTogether.controllers;
 
-import com.weTravelTogether.Service.EventService;
-import com.weTravelTogether.models.Event;
-import com.weTravelTogether.models.User;
+import com.weTravelTogether.service.EventService;
+import com.weTravelTogether.models.entities.Event;
 import com.weTravelTogether.pogos.MessageRequest;
 import com.weTravelTogether.pogos.EventRequest;
 import com.weTravelTogether.repos.UserRepository;
 import com.weTravelTogether.repos.EventRepository;
-import com.weTravelTogether.Service.utils.JwtTokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +22,6 @@ public class EventController {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     EventService eventService;
