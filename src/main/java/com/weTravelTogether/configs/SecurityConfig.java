@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().disable();
         http.csrf().disable(); // TODO: keep only in dev
+        http.logout().disable();
         http.addFilterAfter(jwtAuthorizationFilter, BasicAuthenticationFilter.class);
         http.authorizeRequests()
                 .antMatchers("/login", "/registration","/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**","/refresh-token").permitAll()
