@@ -1,6 +1,6 @@
 package com.weTravelTogether.repos;
 
-import com.weTravelTogether.models.Event;
+import com.weTravelTogether.models.entities.Event;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

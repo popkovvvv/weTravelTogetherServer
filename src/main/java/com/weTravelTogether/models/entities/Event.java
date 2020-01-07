@@ -1,4 +1,4 @@
-package com.weTravelTogether.models;
+package com.weTravelTogether.models.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

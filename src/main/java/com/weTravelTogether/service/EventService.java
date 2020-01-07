@@ -1,9 +1,8 @@
-package com.weTravelTogether.Service;
+package com.weTravelTogether.service;
 
-import com.weTravelTogether.Service.utils.JwtTokenUtil;
-import com.weTravelTogether.Service.utils.UserUtil;
-import com.weTravelTogether.models.Event;
-import com.weTravelTogether.models.User;
+import com.weTravelTogether.security.SecurityService;
+import com.weTravelTogether.models.entities.Event;
+import com.weTravelTogether.models.entities.User;
 import com.weTravelTogether.pogos.MessageRequest;
 import com.weTravelTogether.pogos.EventRequest;
 import com.weTravelTogether.repos.EventRepository;
@@ -12,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class EventService {
@@ -25,13 +23,13 @@ public class EventService {
     UserRepository userRepository;
 
     @Autowired
-    UserUtil userUtil;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    SecurityService securityService;
 
     public MessageRequest createEvent(HttpServletRequest httpServletRequest, EventRequest eventRequest){
-        User user = userUtil.getUserObject(httpServletRequest);
+        long userID = securityService.getLoggedUserId();
+        Optional<User> userOptional = userRepository.findById(userID);
+        User user = userOptional.get();
+
         Event event = new Event();
         event.setTitle(eventRequest.getTitle());
         event.setCity(eventRequest.getCity());
