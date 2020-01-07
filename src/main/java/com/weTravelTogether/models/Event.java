@@ -1,6 +1,7 @@
 package com.weTravelTogether.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,8 @@ public class Event {
     @GeneratedValue
     private long id;
 
-    @Column
+    @NotNull(message = "title cannot be null")
+    @Column(nullable = false)
     private String title;
 
     @ManyToMany(mappedBy = "events")

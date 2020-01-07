@@ -2,6 +2,7 @@ package com.weTravelTogether.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class User{
     @Column
     private String surname;
 
+    @NotNull(message = "password cannot be null")
     @JsonIgnore
     @Column(length = 64, nullable = false)
     private String password;
@@ -36,6 +38,7 @@ public class User{
     @Column
     private int age;
 
+    @NotNull(message = "email cannot be null")
     @Column(length = 64, nullable = false)
     private String email;
 
