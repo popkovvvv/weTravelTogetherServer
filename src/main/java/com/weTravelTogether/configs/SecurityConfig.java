@@ -1,61 +1,50 @@
 package com.weTravelTogether.configs;
 
-import com.weTravelTogether.security.JwtAuthenticationEntryPoint;
-import com.weTravelTogether.security.JwtRequestFilter;
+import com.weTravelTogether.security.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    @Autowired
-    private UserDetailsService jwtUserDetailsService;
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    // configure AuthenticationManager so that it knows from where to load
-    // user for matching credentials
-    // Use BCryptPasswordEncoder
-        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+    JWTAuthorizationFilter jwtAuthorizationFilter;
+
+    public SecurityConfig(JWTAuthorizationFilter jwtAuthorizationFilter) {
+        this.jwtAuthorizationFilter = jwtAuthorizationFilter;
     }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().disable();
+        http.csrf().disable(); // TODO: keep only in dev
+        http.logout().disable();
+        http.addFilterAfter(jwtAuthorizationFilter, BasicAuthenticationFilter.class);
+        http.authorizeRequests()
+                .antMatchers("/login", "/registration","/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**","/refresh-token").permitAll()
+                .anyRequest().authenticated();
+
+                http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
+            response.setHeader("Authorization", "Bearer"); // we can point explicitly to register/login/refresh URL
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        });
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-    // We don't need CSRF for this example
-        httpSecurity.csrf().disable()
-    // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/login", "/registration","/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll().
-    // all other requests need to be authenticated
-        anyRequest().authenticated().and().
-    // make sure we use stateless session; session won't be used to
-    // store user's state.
-        exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    // Add a filter to validate the tokens with every request
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
+
 }
