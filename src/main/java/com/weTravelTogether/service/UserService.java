@@ -44,7 +44,8 @@ public class UserService {
 
         User user = new User();
         user.setEmail(userRegistration.getEmail());
-        user.setPatronymic(passwordEncoder.encode(userRegistration.getPassword()));
+        user.setPassword(passwordEncoder.encode(userRegistration.getPassword()));
+        user.setVisibleGeo(true);
         userRepository.save(user);
 
         return user;
