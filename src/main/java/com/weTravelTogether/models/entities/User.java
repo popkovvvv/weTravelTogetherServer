@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,44 +15,37 @@ public class User{
     @GeneratedValue
     private long id;
 
-    @JsonIgnore
-    @Column
-    private String name;
-
     @Column()
     private String username;
-
-    @JsonIgnore
-    @Column
-    private String surname;
 
     @NotNull(message = "password cannot be null")
     @JsonIgnore
     @Column(length = 64, nullable = false)
     private String password;
 
-    @JsonIgnore
-    @Column(length = 64)
-    private String patronymic;
-
-    @JsonIgnore
-    @Column
-    private int age;
-
     @NotNull(message = "email cannot be null")
     @Column(length = 64, nullable = false)
     private String email;
 
-    @JsonIgnore
-    @Column
-    private String city;
-
-    @Column
-    private boolean visibleGeo;
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Event> events = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private UserProfile userProfile;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private UserGeo userGeo;
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt = new Date();
+
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
 
     public long getId() {
         return id;
@@ -59,22 +53,6 @@ public class User{
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public String getPassword() {
@@ -85,28 +63,12 @@ public class User{
         this.password = password;
     }
 
-    public String getPatronymic() {
-        return patronymic;
-    }
-
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getEmail() {
@@ -117,14 +79,6 @@ public class User{
         this.email = email;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public List<Event> getEvents() {
         return events;
     }
@@ -133,13 +87,35 @@ public class User{
         this.events = events;
     }
 
-    public boolean isVisibleGeo() {
-        return visibleGeo;
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 
-    public void setVisibleGeo(boolean visibleGeo) {
-        this.visibleGeo = visibleGeo;
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
+    public UserGeo getUserGeo() {
+        return userGeo;
+    }
 
+    public void setUserGeo(UserGeo userGeo) {
+        this.userGeo = userGeo;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdOn) {
+        this.createdAt = createdOn;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

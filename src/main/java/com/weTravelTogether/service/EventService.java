@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -37,13 +38,14 @@ public class EventService {
         event.setLatitude(eventRequest.getLatitude());
         event.setLongitude(eventRequest.getLongitude());
         event.getUserList().add(user);
+        event.setUpdatedAt(new Date());
+        event.setCreatedAt(new Date());
         eventRepository.save(event);
 
         user.getEvents().add(event);
         userRepository.save(user);
 
         return new MessageRequest("create", HttpStatus.OK.value());
-
     }
 
     public MessageRequest updateEvent(Event event ,EventRequest eventRequest){
@@ -52,9 +54,8 @@ public class EventService {
         event.setRegion(eventRequest.getRegion());
         event.setLatitude(eventRequest.getLatitude());
         event.setLongitude(eventRequest.getLongitude());
+        event.setUpdatedAt(new Date());
         eventRepository.save(event);
-
         return new MessageRequest("update", HttpStatus.OK.value());
-
     }
 }
