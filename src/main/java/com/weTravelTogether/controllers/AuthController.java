@@ -44,12 +44,15 @@ public class AuthController {
         return accountService.loginUser(userLogin);
     }
 
+    @ApiOperation(value = "Вернет JSON с токеном, использовать если токен устарел", response = AccessToken.class)
     @PostMapping(value = "/refresh-token")
     public AccessToken tokenPostRefresh(@Valid @RequestParam RefreshToken refreshToken) {
         return accountService.refreshAccessToken(refreshToken.getRefreshToken())
                 .orElseThrow(InvalidRefreshTokenException::new);
     }
 
+    @ApiOperation(value = "Выход пользавателя осущесвтляется удалением рефреш токена," +
+            " следовательно нужно удалить на своей стороне access token")
     @PostMapping(value = "/logout")
     public void tokenDeleteLogout(@Valid @ModelAttribute("logout") RefreshToken refreshToken) {
         accountService.logoutUser(refreshToken.getRefreshToken());
