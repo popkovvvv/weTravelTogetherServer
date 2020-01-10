@@ -3,6 +3,7 @@ package com.weTravelTogether.models.entities;
 import javax.persistence.*;
 
 import javax.persistence.Entity;
+import java.util.Date;
 
 @Entity
 @Table(name = "user_geos")
@@ -24,7 +25,15 @@ public class UserGeo {
     @Column
     private double latitude;
 
-    @ManyToOne(optional = false)
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt = new Date();
+
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
     public long getId() {
@@ -73,5 +82,21 @@ public class UserGeo {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdOn) {
+        this.createdAt = createdOn;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
