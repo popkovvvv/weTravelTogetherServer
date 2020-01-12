@@ -7,7 +7,7 @@
             <property name="hibernate.archive.autodetection" value="class" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect" />
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver" />
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost/wetraveltogether?useTimezone=true&amp;serverTimezone=GMT" />
+            <property name="hibernate.connection.url" value="jdbc:mysql://hk-mysql:3306/wetraveltogether?useTimezone=true&amp;serverTimezone=GMT" />
             <property name="hibernate.connection.user" value="root" />
             <property name="hibernate.connection.password" value="12345678" />
             <property name="hibernate.show_sql" value="true"/>
