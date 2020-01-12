@@ -2,8 +2,8 @@ package com.weTravelTogether.controllers;
 
 import com.weTravelTogether.service.EventService;
 import com.weTravelTogether.models.entities.Event;
-import com.weTravelTogether.pogos.MessageRequest;
-import com.weTravelTogether.pogos.EventRequest;
+import com.weTravelTogether.models.request.MessageRequest;
+import com.weTravelTogether.models.request.EventRequest;
 import com.weTravelTogether.repos.UserRepository;
 import com.weTravelTogether.repos.EventRepository;
 import io.swagger.annotations.Api;

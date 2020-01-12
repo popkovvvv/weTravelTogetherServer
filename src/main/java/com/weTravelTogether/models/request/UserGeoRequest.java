@@ -1,30 +1,20 @@
-package com.weTravelTogether.pogos;
+package com.weTravelTogether.models.request;
 
-public class EventRequest {
+public class UserGeoRequest {
 
-    private String title;
     private String city;
     private String region;
     private double longitude;
     private double latitude;
 
-
-    public EventRequest(String city, String region, double longitude, double latitude) {
+    public UserGeoRequest(String city, String region, double longitude, double latitude) {
         this.city = city;
         this.region = region;
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
-    public EventRequest(){ }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public UserGeoRequest(){ }
 
     public String getCity() {
         return city;

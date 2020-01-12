@@ -2,7 +2,7 @@ package com.weTravelTogether.controllers.errorHandler;
 
 import java.util.Date;
 import com.weTravelTogether.configs.swagger.ResourceNotFoundException;
-import com.weTravelTogether.pogos.errors.ErrorDetails;
+import com.weTravelTogether.models.errors.ErrorDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
