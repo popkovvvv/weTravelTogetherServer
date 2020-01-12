@@ -7,11 +7,13 @@ import com.weTravelTogether.models.request.UserLogin;
 import com.weTravelTogether.models.request.UserRegistration;
 import com.weTravelTogether.models.response.AccessToken;
 import com.weTravelTogether.models.response.TokenPair;
+import com.weTravelTogether.pogos.MessageRequest;
 import com.weTravelTogether.repos.UserRepository;
 import com.weTravelTogether.service.AccountService;
 import com.weTravelTogether.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +34,10 @@ public class AuthController {
 
     @ApiOperation(value = "Вернет JSON с токеном", response = TokenPair.class)
     @PostMapping(path="/registration") // Map ONLY POST Requests
-    public TokenPair postRegistration (@ModelAttribute("registration") UserRegistration userRegistration)  throws Exception {
+    public Object postRegistration (@ModelAttribute("registration") UserRegistration userRegistration)  throws Exception {
+        if (!userRegistration.getPassword().equals(userRegistration.getPasswordConfirmation())){
+            return new MessageRequest("password and password confim dont equals", HttpStatus.BAD_REQUEST.value());
+        }
         User user = userService.registerUser(userRegistration);
         return accountService.doLoginUser(user);
     }
