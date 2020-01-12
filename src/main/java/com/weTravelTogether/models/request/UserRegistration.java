@@ -13,9 +13,14 @@ public class UserRegistration {
     @ValidPassword
     private final String password;
 
-    public UserRegistration(@Email String email, @NotBlank String password) {
+    @NotBlank
+    @ValidPassword
+    private final String passwordConfirmation;
+
+    public UserRegistration(@Email String email, @NotBlank String password, @NotBlank String passwordConfirmation) {
         this.email = email;
         this.password = password;
+        this.passwordConfirmation = passwordConfirmation;
     }
 
     public String getEmail() {
@@ -24,5 +29,9 @@ public class UserRegistration {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
     }
 }
