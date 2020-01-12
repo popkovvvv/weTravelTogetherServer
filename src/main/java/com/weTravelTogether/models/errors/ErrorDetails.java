@@ -1,4 +1,4 @@
-package com.weTravelTogether.pogos.errors;
+package com.weTravelTogether.models.errors;
 
 import java.util.Date;
 public class ErrorDetails {

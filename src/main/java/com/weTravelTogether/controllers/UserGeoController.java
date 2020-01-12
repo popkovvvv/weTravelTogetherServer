@@ -4,10 +4,9 @@ import com.weTravelTogether.models.entities.UserProfile;
 import com.weTravelTogether.repos.UserProfileRepository;
 import com.weTravelTogether.security.SecurityService;
 import com.weTravelTogether.service.UserService;
-import com.weTravelTogether.models.entities.User;
 import com.weTravelTogether.models.entities.UserGeo;
-import com.weTravelTogether.pogos.MessageRequest;
-import com.weTravelTogether.pogos.UserGeoRequest;
+import com.weTravelTogether.models.request.MessageRequest;
+import com.weTravelTogether.models.request.UserGeoRequest;
 import com.weTravelTogether.repos.UserGeoRepository;
 import com.weTravelTogether.repos.UserRepository;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @RestController
 public class UserGeoController {

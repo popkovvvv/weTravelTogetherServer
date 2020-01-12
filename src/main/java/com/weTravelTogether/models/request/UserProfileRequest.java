@@ -1,9 +1,5 @@
 package com.weTravelTogether.models.request;
 
-import com.weTravelTogether.models.entities.User;
-import com.weTravelTogether.models.entities.UserProfile;
-import com.weTravelTogether.pogos.interfaces.PojoInt;
-
 public class UserProfileRequest{
 
     private long id;

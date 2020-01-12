@@ -7,7 +7,7 @@ import com.weTravelTogether.models.request.UserLogin;
 import com.weTravelTogether.models.request.UserRegistration;
 import com.weTravelTogether.models.response.AccessToken;
 import com.weTravelTogether.models.response.TokenPair;
-import com.weTravelTogether.pogos.MessageRequest;
+import com.weTravelTogether.models.request.MessageRequest;
 import com.weTravelTogether.repos.UserRepository;
 import com.weTravelTogether.service.AccountService;
 import com.weTravelTogether.service.UserService;

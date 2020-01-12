@@ -1,4 +1,4 @@
-package com.weTravelTogether.pogos;
+package com.weTravelTogether.models.request;
 
 import org.springframework.http.HttpStatus;
 

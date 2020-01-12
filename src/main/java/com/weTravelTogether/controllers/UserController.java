@@ -5,7 +5,7 @@ import com.weTravelTogether.models.request.UserProfileRequest;
 import com.weTravelTogether.repos.UserProfileRepository;
 import com.weTravelTogether.security.SecurityService;
 import com.weTravelTogether.service.UserService;
-import com.weTravelTogether.pogos.MessageRequest;
+import com.weTravelTogether.models.request.MessageRequest;
 import com.weTravelTogether.repos.UserRepository;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
