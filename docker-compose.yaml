@@ -1,0 +1,37 @@
+version: '3'
+services:
+  hk-nginx:
+    container_name: hk-nginx
+    image: nginx:1.13
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+
+  hk-mysql:
+    container_name: hk-mysql
+    image: mysql/mysql-server:8.0
+    environment:
+      MYSQL_DATABASE: wetraveltogether
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3306:3306"
+    restart: always
+
+  app:
+    restart: always
+    build: ./wetraveltogether
+    working_dir: /wetraveltogether
+    volumes:
+      - ./wetraveltogether:/wetraveltogether
+      - ~/.m2:/root/.m2
+    expose:
+      - "8080"
+    command: mvn clean spring-boot:run
+    depends_on:
+      - hk-mysql
