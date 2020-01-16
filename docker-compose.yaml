@@ -1,7 +1,21 @@
 version: '3'
 services:
-  hk-nginx:
-    container_name: hk-nginx
+  prometheus:
+    image: prom/prometheus:v2.3.2
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+  grafana:
+    image: grafana/grafana:5.2.2
+    container_name: grafana
+    ports:
+      - 3000:3000
+    env_file:
+      - ./grafana.env
+  weTravelTogether-nginx:
+    container_name: weTravelTogether-nginx
     image: nginx:1.13
     restart: always
     ports:
@@ -12,8 +26,8 @@ services:
     depends_on:
       - app
 
-  hk-mysql:
-    container_name: hk-mysql
+  weTravelTogether-mysql:
+    container_name: weTravelTogether-mysql
     image: mysql/mysql-server:8.0
     environment:
       MYSQL_DATABASE: wetraveltogether
