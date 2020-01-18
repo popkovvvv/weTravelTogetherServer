@@ -32,7 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout().disable();
         http.addFilterAfter(jwtAuthorizationFilter, BasicAuthenticationFilter.class);
         http.authorizeRequests()
-                .antMatchers("/login", "/registration","/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**","/refresh-token").permitAll()
+                .antMatchers(
+                        "/login", "/registration", "/v2/api-docs",
+                        "/configuration/**", "/swagger*/**",
+                        "/webjars/**", "/refresh-token", "/","/actuator", "/actuator/*").permitAll()
                 .anyRequest().authenticated();
 
                 http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
