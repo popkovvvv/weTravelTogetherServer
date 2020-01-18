@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services:
   prometheus:
     image: prom/prometheus:v2.3.2
@@ -7,6 +7,10 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - 9090:9090
+    depends_on:
+      - wetraveltogether
+      - wetraveltogether-mysql
+
   grafana:
     image: grafana/grafana:5.2.2
     container_name: grafana
@@ -14,19 +18,8 @@ services:
       - 3000:3000
     env_file:
       - ./grafana.env
-  weTravelTogether-nginx:
-    container_name: weTravelTogether-nginx
-    image: nginx:1.13
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-    depends_on:
-      - app
 
-  weTravelTogether-mysql:
+  wetraveltogether-mysql:
     container_name: weTravelTogether-mysql
     image: mysql/mysql-server:8.0
     environment:
@@ -34,18 +27,21 @@ services:
       MYSQL_ROOT_PASSWORD: 12345678
       MYSQL_ROOT_HOST: '%'
     ports:
-      - "3306:3306"
+      - 3306:3306
     restart: always
 
-  app:
+
+  wetraveltogether:
     restart: always
-    build: ./wetraveltogether
-    working_dir: /wetraveltogether
+    build: ./
+    working_dir: /weTravelTogether
     volumes:
-      - ./wetraveltogether:/wetraveltogether
+      - ./weTravelTogether:/weTravelTogether
       - ~/.m2:/root/.m2
-    expose:
-      - "8080"
+    ports:
+      - 8080:8080
     command: mvn clean spring-boot:run
     depends_on:
-      - hk-mysql
+      - wetraveltogether-mysql
+    container_name: spring
+
