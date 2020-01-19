@@ -11,7 +11,13 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['spring:8080']
-  - job_name: 'wetraveltogether-mysql'
+
+  - job_name: mysql
+    metrics_path: /metrics
+    scrape_interval: 10s
+    scrape_timeout: 10s
     static_configs:
-      - targets: ['weTravelTogether-mysql:3306']
+      - targets: ['mysqlexporter:9104']
+
+
 
